@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FRAME is a browser-based cinematic reel planning and typography editor.">
+  <title>FRAME — Cinematic Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="FRAME home">
+        <span class="brand-mark">F</span>
+        <span>FRAME<span class="brand-dot">.</span><small>YOUR LITTLE STUDIO</small></span>
+      </a>
+      <div class="workspace-label">YOUR SPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="projects"><span>▦</span> Projects <span class="nav-count" id="project-count">01</span></button>
+        <button class="nav-item" data-view="editor"><span>◫</span> Editor</button>
+        <button class="nav-item" data-view="assets"><span>▧</span> Media library</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="storage-card">
+          <div class="storage-icon">✳</div>
+          <strong>A place to make things</strong>
+          <p>Projects stay in this browser on this device.</p>
+          <div class="storage-track"><span></span></div>
+          <small>SAVED ON THIS DEVICE</small>
+        </div>
+        <div class="profile">
+          <div class="avatar">FR</div>
+          <div><strong>My workspace</strong><small>Personal space</small></div>
+          <span class="profile-more">•••</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Workspace</span><b>/</b><strong id="breadcrumb-current">Projects</strong></div>
+        <div class="topbar-actions">
+          <span class="save-status"><i></i><span id="save-status">Changes saved</span></span>
+          <button class="icon-button" id="help-button" aria-label="Project help">?</button>
+          <button class="button button-primary" id="new-project-top"><span>＋</span> New project</button>
+        </div>
+      </header>
+
+      <section class="view active" id="projects-view">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span> YOUR PROJECTS</div>
+            <h1>Make something<br><em>that feels like you.</em></h1>
+            <p class="heading-copy">Collect your ideas, try a few looks, and see where they take you.</p>
+          </div>
+          <div class="heading-stamp"><span>FRAME / 001</span><strong>MAKE ROOM<br>FOR IDEAS.</strong><small>MADE FOR MAKING</small></div>
+        </div>
+
+        <div class="section-heading">
+          <div><h2>Projects <span id="project-total">01</span></h2><p>Pick up where you left off, or start with a fresh idea.</p></div>
+          <div class="section-actions">
+            <label class="search-box"><span>⌕</span><input id="project-search" type="search" placeholder="Find a project" aria-label="Search projects"></label>
+            <button class="button button-outline" id="new-project">＋ Create project</button>
+          </div>
+        </div>
+        <div class="project-grid" id="project-grid"></div>
+        <div class="empty-state hidden" id="empty-state">
+          <div class="empty-icon">▧</div><h3>Nothing here yet</h3><p>Try a different search, or make a new project.</p>
+          <button class="button button-primary" id="empty-create">Create a project</button>
+        </div>
+
+        <div class="inspiration-strip">
+          <div class="inspiration-symbol">✳</div>
+          <div><span class="eyebrow">A NOTE TO SELF</span><h3>Start with a feeling. The details can come later.</h3><p>You don’t need the whole idea figured out before you begin.</p></div>
+          <span class="strip-index">NOTE NO. 01</span>
+        </div>
+      </section>
+
+      <section class="view" id="editor-view">
+        <div class="editor-heading">
+          <div><button class="back-link" id="back-projects">← All projects</button><h1 id="editor-project-name">Untitled project</h1><p>Make a few changes and see what feels right.</p></div>
+          <div class="editor-heading-actions"><span class="format-pill">VERTICAL · 9:16</span><button class="button button-outline" id="rename-project">Rename</button><button class="button button-primary" id="export-button">Export PNG</button></div>
+        </div>
+        <div class="editor-layout">
+          <section class="preview-column">
+            <div class="panel-top"><span>YOUR PREVIEW</span><span class="live-indicator"><i></i> LIVE PREVIEW</span></div>
+            <div class="preview-stage">
+              <div class="preview-frame" id="preview-frame">
+                <div class="preview-image" id="preview-image"></div>
+                <div class="preview-vignette"></div>
+                <div class="preview-copy" id="preview-copy">
+                  <span class="preview-kicker" id="preview-kicker">A LITTLE STUDY IN LIGHT</span>
+                  <h2 id="preview-title">Take the long way<br><em>home.</em></h2>
+                  <p id="preview-subtitle">NO RUSH. NO PARTICULAR PLAN.</p>
+                </div>
+                <div class="preview-footer"><span>FRAME®</span><span id="preview-timecode">00:00 / 00:15</span></div>
+              </div>
+            </div>
+            <div class="playback-controls">
+              <button class="round-play" id="play-button" aria-label="Play preview">▶</button>
+              <div class="playback-progress"><div class="playback-meta"><span id="playback-state">Preview paused</span><span id="playback-time">00:00</span></div><input id="playback-range" type="range" min="0" max="15" step="0.1" value="0" aria-label="Preview time"></div>
+              <button class="icon-button" id="restart-button" aria-label="Restart preview">↺</button>
+            </div>
+            <div class="preview-note"><span>✳</span> Your preview changes as you edit. Export saves a PNG still, not a video.</div>
+          </section>
+
+          <aside class="properties-column">
+            <div class="properties-header"><div><span class="eyebrow">MAKE IT YOURS</span><h2>Composition</h2></div><span class="properties-number">01 / 03</span></div>
+            <div class="property-section">
+              <div class="property-title"><span>01</span><strong>Typography</strong><span class="property-chevron">−</span></div>
+              <label class="field-label" for="title-input">Headline</label>
+              <textarea id="title-input" rows="2" maxlength="100">Take the long way home.</textarea>
+              <label class="field-label" for="subtitle-input">Small supporting line</label>
+              <input id="subtitle-input" type="text" maxlength="100" value="NO RUSH. NO PARTICULAR PLAN.">
+              <div class="two-fields">
+                <div><label class="field-label" for="font-select">Typeface</label><select id="font-select"><option value="Manrope">Manrope</option><option value="Georgia">Georgia</option><option value="Arial">Arial</option><option value="monospace">Mono</option></select></div>
+                <div><label class="field-label" for="font-size">Scale <span id="font-size-value">32px</span></label><input id="font-size" type="range" min="20" max="48" value="32"></div>
+              </div>
+              <label class="field-label">Text alignment</label>
+              <div class="alignment-control"><button data-align="left" class="align-button active" aria-label="Align left">☰</button><button data-align="center" class="align-button" aria-label="Align center">≡</button><button data-align="right" class="align-button" aria-label="Align right">☷</button></div>
+            </div>
+            <div class="property-section">
+              <div class="property-title"><span>02</span><strong>Scene</strong><span class="property-chevron">−</span></div>
+              <label class="field-label">Pick a background</label>
+              <div class="scene-grid">
+                <button class="scene-option active" data-scene="coast"><span class="scene-thumb scene-coast"></span><span>Coastal</span></button>
+                <button class="scene-option" data-scene="desert"><span class="scene-thumb scene-desert"></span><span>Desert</span></button>
+                <button class="scene-option" data-scene="city"><span class="scene-thumb scene-city"></span><span>After hours</span></button>
+              </div>
+              <label class="field-label" for="overlay-intensity">Dark overlay <span id="overlay-value">45%</span></label>
+              <input id="overlay-intensity" type="range" min="0" max="80" value="45">
+            </div>
+            <div class="property-section">
+              <div class="property-title"><span>03</span><strong>Output settings</strong><span class="property-chevron">−</span></div>
+              <div class="setting-row"><div><strong>Aspect ratio</strong><small>Good for Reels and Shorts</small></div><span class="setting-value">9:16</span></div>
+              <div class="setting-row"><div><strong>Duration</strong><small>Preview length</small></div><span class="setting-value">00:15</span></div>
+            </div>
+            <div class="properties-footer"><span>✳</span> Take your time. Try things out.</div>
+          </aside>
+        </div>
+
+        <section class="timeline-panel">
+          <div class="timeline-header"><div><h2>Layers & timing</h2><span class="timeline-duration">00:15</span></div><div class="timeline-tools"><button id="add-text-track">＋ Add text layer</button><button id="reset-timeline">Reset preview</button></div></div>
+          <div class="timeline-ruler"><span>00:00</span><span>00:03</span><span>00:06</span><span>00:09</span><span>00:12</span><span>00:15</span></div>
+          <div class="timeline-track"><div class="track-label"><span>▧</span> Scene</div><div class="track-content"><div class="track-clip scene-clip"><span>▧</span> Background scene <small>00:15</small></div></div></div>
+          <div class="timeline-track"><div class="track-label"><span>T</span> Typography</div><div class="track-content"><div class="track-clip text-clip" id="text-clip"><span>T</span> Headline & subtitle <small>00:15</small></div><div class="playhead" id="playhead"></div></div></div>
+          <div class="timeline-footer"><span><i></i> All layers synced</span><span>CLIPS CAN’T BE DRAGGED YET</span></div>
+        </section>
+      </section>
+
+      <section class="view" id="assets-view">
+        <div class="page-heading assets-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR IMAGES</div><h1>Images for<br><em>your next idea.</em></h1><p class="heading-copy">Bring in an image from your device to try it in your composition.</p></div></div>
+        <div class="asset-toolbar"><div><h2>Media library</h2><p>These images are available until you refresh or close this page.</p></div><label class="button button-primary upload-button">＋ Choose images<input id="asset-upload" type="file" accept="image/*" multiple hidden></label></div>
+        <div class="asset-grid" id="asset-grid"><div class="asset-empty"><span>▧</span><h3>Your library is waiting</h3><p>Import an image to add it to the media library.</p></div></div>
+        <p class="asset-disclaimer">Your images aren’t uploaded anywhere. They’re kept temporarily in this browser session and clear when you refresh.</p>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="project-dialog" class="modal">
+    <form id="project-form" method="dialog">
+      <div class="modal-top"><span class="eyebrow">NEW PROJECT</span><button class="icon-button" type="button" id="close-dialog" aria-label="Close dialog">×</button></div>
+      <h2>What are you<br><em>working on?</em></h2>
+      <p>Give this idea a name and pick a starting mood.</p>
+      <label class="field-label" for="project-name-input">Project name</label>
+      <input id="project-name-input" type="text" maxlength="50" placeholder="e.g. Summer in motion" required>
+      <label class="field-label" for="project-style-input">Starting scene</label>
+      <select id="project-style-input"><option value="coast">Coastal calm</option><option value="desert">Warm desert</option><option value="city">After hours</option></select>
+      <div class="modal-actions"><button class="button button-outline" type="button" id="cancel-dialog">Cancel</button><button class="button button-primary" type="submit">Create project</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="help-dialog" class="modal help-modal">
+    <div class="modal-top"><span class="eyebrow">A QUICK GUIDE</span><button class="icon-button" id="close-help" aria-label="Close help">×</button></div>
+    <h2>A few things<br><em>before you start.</em></h2>
+    <ul class="help-list">
+      <li><strong>Projects</strong><span>Create, find, rename, duplicate, or delete projects. Your project settings are saved in this browser.</span></li>
+      <li><strong>Composition</strong><span>Change the headline, supporting line, typeface, background, and overlay in the editor.</span></li>
+      <li><strong>Preview</strong><span>Play the short preview or move the slider to scrub through it.</span></li>
+      <li><strong>Export</strong><span>Export downloads a PNG image. It doesn’t render an MP4 or a finished video.</span></li>
+    </ul>
+    <button class="button button-primary full-width" id="got-it">Sounds good</button>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
